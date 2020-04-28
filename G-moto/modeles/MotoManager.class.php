@@ -1,108 +1,85 @@
 <?php
+
+include_once('Moto.class.php');
 class MotoManager
 {
-    private $_db;
- 
-    // Le constructeur prend en paramettre l'instance PDO
-    public function __construct($db)
-    {
-        $this->_db=$db;
-    }
-    public function add(Moto $moto)
-    {
-        $resq=$this->_db->prepare("INSERT INTO moto(Numero_de_serie, marque, Modele, Cylindre, Categorie, Prix) VALUES(:Numero_de_serie, :marque, :Modele:, :Cylindre, :Categorie, :Prix)");
-        $resq->bindValue(':numero', $moto->getNumero_de_serie());
-        $resq->bindValue(':marque', $moto->getmarque());
-        $resq->bindValue(':modele', $moto->getModele());
-        $resq->bindValue(':cylindre', $moto->getCylindre());
-        $resq->bindValue(':categorie', $moto->geCategorie());
-        $resq->bindValue(':prix', $moto->getPrix());
-        $resq->execute();
+    private $base;
+    function __construct(){
+        $this->base=$GLOBALS["base"];
     }
 
-    public function get($Numero_de_serie)
-   {
-     $sql=$this->_db->query("SELECT * FROM moto WHERE numero= $Numero_de_serie");
-     $row=$sql->fetch();
-     $sql->closeCursor();
-     $mot=new Moto($row);
-     return $mot;
-   }
-//    function getAll(){
-//     $patients=$this->base->query("SELECT * FROM patients");
-//     return $patients->fetchAll();
-// }
-    public function getliste()
-    {
-        $moto=[];
-        $resq=$this->_db->query('SELECT * FROM moto ORDER BY numero');
-        $donnee=$resq->fetchAll();
-        $resq->closeCursor();
-        foreach ($moto as $moto)
-        {
-            $moto[]=new Moto ($donnees);
+    function getmarque($marque=""){
+        $motoliste=[];
+        $get=$this->base->query("SELECT * FROM moto");
+        if ($marque!=""){
+            $get=$this->base->prepare("SELECT * ,COUNT(marque) as nombre FROM moto WHERE marque=:mark");
+           $get->execute(array("mark"=>$marque));
         }
-        return $moto;
+        $don= $get->fetchAll();
+        foreach($don as $key=>$tom) {
+            $moto=new Moto($tom);
+            $motoliste[$key]=$moto;
+        }
+        return $motoliste;
     }
 
-    // public function liste_yamaha()
-    // {
-    //     $moto=[];
-    //     $resq=$this->_db->query('SELECT * FROM moto WHERE marque="yamaha"');
-    //     $donnee=$resq->fetchAll();
-    //     $resq->closeCursor();
-    //     foreach ($donnee as $donnees)
-    //     {
-    //         $moto[]=new Moto ($donnees);
-    //     }
-    //     return $moto;
-    // }
-
-    // public function liste_rato()
-    // {
-    //     $moto=[];
-    //     $resq=$this->_db->query('SELECT * FROM moto WHERE marque="rato"');
-    //     $donnee=$resq->fetchAll();
-    //     $resq->closeCursor();
-    //     foreach ($donnee as $donnees)
-    //     {
-    //         $moto[]=new Moto ($donnees);
-    //     }
-    //     return $moto;
-    // }
-
-    // public function liste_kaiser()
-    // {
-    //     $moto=[];
-    //     $resq=$this->_db->query('SELECT * FROM moto WHERE marque="kaiser"');
-    //     $donnee=$resq->fetchAll();
-    //     $resq->closeCursor();
-    //     foreach ($donnee as $donnees)
-    //     {
-    //         $moto[]=new Moto ($donnees);
-    //     }
-    //     return $moto;
-    // }
-
-    public function delete($numero_de_serie)
-    {
-        $resq=$this->_db->exec("DELETE * FROM moto WHERE Numero_de_serie= .$Numero_de_serie");
-        return $resq>0;
+    function getNombre($marque=""){
+        $nb=$this->base->query("SELECT COUNT(marque) as nombre  FROM moto");
+        if ($marque!=""){
+            $nb=$this->base->prepare("SELECT COUNT(marque) as nombre FROM moto WHERE marque=:mark");
+            $nb->execute(array("mark"=>$marque));
+        }
+        $nomb=$nb->fetch();
+        return $nomb["nombre"];
     }
 
-    public function update(Moto $moto)
-    {
-         try{ 
-                $sql=$this->_db->prepare('UPDATE moto SET Numero_de_serie=:Numero_de_serie, marque=:marque, Modele=:Modele, Cylindre=:Cylindre, Categorie=:Categorie WHERE Numero_de_serie=:Numero_de_serie');
-                $d=$sql->execute(array('marque'=>$moto->getMarque(),
-                'modele'=>$moto->getModele(),
-                'cylindre'=>$moto->getCylindre(),
-                'categorie'=>$moto->getCategorie(),
-                'numero'=>$moto->getNumero_de_serie(),
-                'prix'=>$moto->getPrix()
-              ));  
-         } catch (Exception $ex) {
-             echo $ex->getMessage();
-         }
-       }
+    function get($serie){
+        $tomo=$this->base->prepare("SELECT * FROM moto WHERE numero_de_serie=:serie");
+       $tomo->execute(array(
+            "serie"=>$serie
+        ));
+        return new Moto($tomo->fetch()); 
+    }
+
+    function enregistrer($motoregister){
+        print_r($motoregister);
+        $inserer=$this->base->prepare("INSERT INTO moto(Numero_de_serie, marque, Modele, Cylindre, Categorie, Prix) VALUES (:numeros,:marques,:modeles,:cylindres,:categories,:prixx)");
+        $inserer->execute(array(
+    
+            ":numeros"=>$motoregister-getNumero_de_serie(),
+            ":marques"=>$motoregister->getMarque(),
+            ":modeles"=>$motoregister->getModele(),
+            ":cylindres"=>$motoregister->getCylindre(),
+            ":categories"=>$motoregister->getCategorie(),
+            ":prixx"=>$motoregister->getPrix()
+        ));
+    }
+    
+    function misejour($motojour){
+        $modi=$this->base->prepare("UPDATE moto SET Numero_de_serie=:numeros,marque=:marques,Modele=:modeles,Cylindre=:cylindres,Categorie=:categories,Prix=:prixx WHERE numero_de_serie=:numeros");
+        $modi->execute(array(
+    
+            ":numeros"=>$motojour->getNumero_de_serie(),
+            ":marques"=>$motojour->getMarque(),
+            ":modeles"=>$motojour->getModele(),
+            ":cylindres"=>$motojour->getCylindre(),
+            ":categories"=>$motojour->getCategorie(),
+            ":prixx"=>$motojour->getPrix()
+        ));
+    }
+    
+    function supprimer($motodelete){
+        $supr=$this->base->prepare("DELETE FROM moto WHERE numero_de_serie=:numeros");
+        $supr->execute(array(
+            "numeros"=>$motodelete
+        ));
+    }
+    
+    function stock_vente($statu){
+            $nb=$this->base->prepare("SELECT COUNT(marque) as nombre FROM moto WHERE disponibilite=:stat");
+            $nb->execute(array("stat"=>$statu));
+        $nomb=$nb->fetch();
+        return $nomb["nombre"];
+    }
+    
 }

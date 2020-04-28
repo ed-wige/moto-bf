@@ -1,5 +1,6 @@
 <?php
-require_once ("modeles/Connexion.class.php");
+require_once ("../modeles/Db.class.php");
+ require_once ("../authentification.php");
 
  function verif()
 {
@@ -15,7 +16,8 @@ if(isset($_POST['user']) AND isset($_POST['pwd']))
         $rep=$requette->fetch();
         if($rep)
         {
-            return 'ok';
+            // header("location:index.php?page=welcome");
+        
         }
         else
         {

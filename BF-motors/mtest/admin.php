@@ -1,10 +1,10 @@
 
 <?php 
-require_once ("loginn.php");
+require_once ("login.php");
 $rep=verif();
 if($rep=='ok')
 {
-    header("location: vues/welcome.php");
+    header("location: vue/welcome.php");
 }
 
  else {
@@ -31,15 +31,15 @@ if($rep=='ok')
   <h2>Bienvenu sur la plateforme de gestion de vente de motos</h2><br>
   <div class="row">
     <div class="col-sm-6">
-    <form class="form-signin" action="authentification.php" method="POST">
+    <form class="form-signin" action="admin.php" method="POST">
       <h1 class="h3 mb-3 font-weight-normal">Entrez vos identifiants</h1><br>
       <div class="form-group">
 							<label for="username" class="sr-only">Username</label>
-							<input type="text" class="form-control" name="user" id="username" placeholder="Username" autocomplete="off" required>
+							<input type="text" class="form-control" name="username" id="username" placeholder="Username" autocomplete="off" required>
 						</div>
 						<div class="form-group">
 							<label for="password" class="sr-only">Password</label>
-							<input type="password" class="form-control" name="pwd" id="password" placeholder="Password" autocomplete="off">
+							<input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
 						</div>
       <div class="checkbox mb-3">
         <label><input type="checkbox" value="remember-me">Se souvenir de moi</label>
@@ -56,6 +56,8 @@ if($rep=='ok')
  <h3> Copyright © 2020 Simplon.co, Burkina</h3>
   </div>
 </div>
+ <script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script> 
 </body>
 </html>
-</body>

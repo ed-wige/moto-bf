@@ -86,7 +86,7 @@ class MotoManager
         $resq=$this->_db->exec("DELETE * FROM moto WHERE id=".$id);
         return $resq>0;
     }
-
+ 
     public function update(Moto $moto)
     {
          try{ 

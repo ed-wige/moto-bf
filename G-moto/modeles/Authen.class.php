@@ -6,7 +6,7 @@ class Authen{
     $base=$GLOBALS["base"];
    }
 
-    function isNasa($id,$password){
+    function isAuthen($id,$password){
         $aut=$this->base->prepare("SELECT * FROM admin WHERE username=:username AND password=:pwd");
         $conn=$aut->execute(array(
             "username"=>$id,
@@ -21,3 +21,4 @@ class Authen{
     }
 }
 ?>
+
