@@ -1,6 +1,6 @@
 <?php
 include_once("Moto.class.php");
-class Motomanager{
+class MotoManager{
     private $base;
     function __construct(){
         $this->base=$GLOBALS["base"];
@@ -31,7 +31,7 @@ class Motomanager{
         return $nomb["nombre"];
     }
 
-    function get($serie){
+    function get($numero_de_serie){
         $tomo=$this->base->prepare("SELECT * FROM moto WHERE numero_de_serie=:numero_de_serie");
        $tomo->execute(array(
             "numero_de_serie"=>$numero_de_serie
@@ -39,16 +39,17 @@ class Motomanager{
         return new Moto($tomo->fetch()); 
     }
 
-function enregistrer($moto){
-    // print_r($motoregister);
+function enregistrer($motoregister){
+    //   print_r($motoregister);
     $inserer=$this->base->prepare("INSERT INTO moto(numero_de_serie,marque, modele,cylindre,categorie, prix) VALUES(:numero_de_serie,:marque,:modele,:cylindre,:categorie,:prix)");
     $inserer->execute(array(
-        "numero_de_serie"=>$motoregister->getnumero_de_serie(),
-        "marqueM"=>$motoregister->getmarque(),
-        "modeleM"=>$motoregister->getmodele(),
-        "categorie"=>$motoregister->getctegorie(),
-        "cylindreM"=>$motoregister->getcylindre(),
-        "prixM"=>$motoregister->getprix()
+        "numero_de_serie"=>$motoregister->numero_de_serie(),
+        "marque"=>$motoregister->marque(),
+        "modele"=>$motoregister->modele(),
+        "categorie"=>$motoregister->categorie(),
+        "cylindre"=>$motoregister->cylindre(),
+        "prix"=>$motoregister->prix()
+
     ));
 }
 

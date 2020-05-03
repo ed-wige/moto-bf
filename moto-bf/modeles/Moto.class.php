@@ -71,7 +71,7 @@ class Moto{
    }
 
    public function modele(){
-    return $this->_modele;
+    return $this->modele;
    }
 
    public function cylindre(){

@@ -1,5 +1,8 @@
 <?php
+ require_once ("../modeles/MotoManager.class.php");
+
 require_once ("../vues/formulaire.php");
+require_once ("../modeles/Db.class.php");
 
 // class ControlleurFormulaire{
 $motoManager=new MotoManager(); 
@@ -15,7 +18,7 @@ $prix=" ";
 
 $titre="Save";
  if(isset($_GET["numero_de_serie"])){
-     $moto=$manageur-> get($_GET["numero_de_serie"]);
+     $moto=$motoManager-> get($_GET["numero_de_serie"]);
      $titre="Mettre ajour";
     
 $numero='value="'.$moto->getnumero_de_serie().'"';
@@ -41,5 +44,4 @@ AND isset($_POST["prix"])){
     
 }
 
- require_once ("../vues/formulaire.php");
 ?>

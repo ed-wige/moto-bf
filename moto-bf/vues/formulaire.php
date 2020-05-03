@@ -12,7 +12,7 @@
 require_once ("header.php");
 ?>
 
-<form method="post" action="" enctype="multipart/form-data" data-toggle="validator" id="frm">
+<form method="post" action="" enctype="multipart/form-data" data-toggle="validator" id="frm" >
 <h2> <center > Enregistrement d'une moto </center></h2> <br>
           <div class="form-row">
             <div class="form-group col-md-6">

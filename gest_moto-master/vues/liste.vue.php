@@ -43,3 +43,4 @@
         ?>
     </tbody>
 </table>
+<button> <a href="formulaire.php">Nouveau</a></button>
